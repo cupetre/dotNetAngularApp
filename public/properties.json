@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "Type": "House1",
+    "Price": 1200,
+    "Name": "Plafon"
+  },
+  {
+    "id": 2,
+    "Type": "House2",
+    "Price": 1200,
+    "Name": "Plafon"
+  },
+  {
+    "id": 3,
+    "Type": "House3",
+    "Price": 1200,
+    "Name": "Plafon"
+  },
+  {
+    "id": 4,
+    "Type": "House4",
+    "Price": 1200,
+    "Name": "Plafon"
+  },
+  {
+    "id": 5,
+    "Type": "House5",
+    "Price": 1200,
+    "Name": "Plafon"
+  },
+  {
+    "id": 6,
+    "Type": "House6",
+    "Price": 1200,
+    "Name": "Plafon"
+  }
+]
