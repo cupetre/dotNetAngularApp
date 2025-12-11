@@ -1,0 +1,40 @@
+.property-container {
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 20px;
+}
+
+.property-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 250px);
+    gap: 25px;
+    padding: 10px;
+    justify-content: center;
+}
+
+@media (min-width: 1200px) {
+    .property-grid {
+        grid-template-columns: repeat(4, 250px);
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+}
+
+.property-container::-webkit-scrollbar {
+    height: 10px;
+}
+
+.property-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.property-container::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+.property-container::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}

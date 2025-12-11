@@ -1,16 +1,13 @@
-import { Component } from "@angular/core";
+import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
-    selector: 'app-property-card',
-    templateUrl: 'property-card.component.html', 
-    styleUrl: 'property-card.component.css'
+  selector: 'app-property-card',
+  standalone: true,         // <--- THIS
+  imports: [CommonModule],
+  templateUrl: './property-card.component.html',
+  styleUrls: ['./property-card.component.css']
 })
-
-export class PropertyCardComponent { 
-    Property: any =  {
-        "id": 1,
-        "Type":"House",
-        "Price":1200,
-        "Name": "Mandarina"
-    }
+export class PropertyCardComponent {
+  @Input() property: any;
 }

@@ -1,12 +1,17 @@
-<div class="rows">
-    <div class="shadow-lg col-sm-4">
-        <div class="card">
-            <img class="propImg" src="brat.jpg">
-            <div class="card-body p-2">
-                <h1> {{Property.Price}} </h1>
-                <h1> {{Property.Type}} </h1>
-                <h2> {{Property.Name}} </h2>
-            </div>
-        </div>
+<div class="card">
+    <div class="card-img-wrapper">
+        <img class="propImg" src="brat.jpg">
+        <ul class="member-icons">
+            <li>
+                <button class="btn btn-primay"><i class="fa-solid fa-pen-to-square"></i></button>
+            <li>
+                <button class="btn btn-primay"><i class="fa-regular fa-address-book"></i></button>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
+        <h1 class="price">{{ property?.Price | currency }}</h1>
+        <h2 class="type">{{ property?.Type }}</h2>
+        <h2 class="name">{{ property?.Name }}</h2>
     </div>
 </div>
