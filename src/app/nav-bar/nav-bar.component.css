@@ -1,0 +1,19 @@
+.navbar {
+  padding: 0.75rem 1rem;
+}
+
+.navbar-nav .nav-link {
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+}
+
+.navbar-nav .nav-link.active {
+  font-weight: 600;
+  color: #0d6efd !important;
+}
+
+@media (max-width: 991px) {
+  .navbar-nav {
+    text-align: center;
+  }
+}
