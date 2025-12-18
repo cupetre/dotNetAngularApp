@@ -6,9 +6,9 @@ import { HousingService } from './services/housing.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideZoneChangeDetection({ eventCoalescing: true }), // Keep this
-    provideHttpClient(), // Add this - THIS IS THE FIX
-    provideRouter(routes), // Keep this,
+    provideZoneChangeDetection({ eventCoalescing: true }), 
+    provideHttpClient(),
+    provideRouter(routes), 
     HousingService,
   ]
 };

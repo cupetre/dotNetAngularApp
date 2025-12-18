@@ -1,6 +1,8 @@
 <div class="card">
     <div class="card-img-wrapper">
-        <img class="propImg" src="brat.jpg">
+        <img *ngIf="property.Image" class="propImg" src="{{property.Image}}.jpg">        
+        <img *ngIf="!property.Image" class="propImg" src="{{property.Image}}.jpg">
+
         <ul class="member-icons">
             <li>
                 <button routerLink="/detail-property/{{property.id}}" class="btn btn-primay"><i class="fa-solid fa-pen-to-square"></i></button>
