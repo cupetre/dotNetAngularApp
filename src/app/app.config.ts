@@ -3,6 +3,7 @@ import { provideRouter } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http'; // Add this import
 import { routes } from './app.routes';
 import { HousingService } from './services/housing.service';
+import { UserServiceService } from './services/user-service.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -10,5 +11,6 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     provideRouter(routes), 
     HousingService,
+    UserServiceService
   ]
 };

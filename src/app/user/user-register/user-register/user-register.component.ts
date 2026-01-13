@@ -1,7 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validator, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validator, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UserServiceService } from '../../../services/user-service.service';
+import { User } from '../../../model/user';
+import * as alertify from 'alertifyjs';
+import { AlertifyServiceService } from '../../../services/alertify-service.service';
 
 @Component({
   selector: 'app-user-register',
@@ -17,21 +21,36 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class UserRegisterComponent implements OnInit {
 
   registrationForm!: FormGroup;
+  user: User | undefined;
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private fb: FormBuilder,
+    private userService: UserServiceService,
+    private alertify: AlertifyServiceService
   ) {}
 
   ngOnInit() {
-    this.registrationForm = new FormGroup({
+    /* this.registrationForm = new FormGroup({
       userName: new FormControl('Mark', Validators.required),
       email: new FormControl(null, [Validators.required, Validators.email]),
       password: new FormControl(null, [Validators.required, Validators.minLength(8)]),
       confirmPassword: new FormControl(null, [Validators.required]),
       mobile: new FormControl(null, [Validators.required, Validators.maxLength(30)])
-    }, { validators: this.passwordMatchingValidator });
+    }, { validators: this.passwordMatchingValidator });*/
+    this.createRegisterationForm();
   };
+
+  createRegisterationForm() {
+    this.registrationForm = this.fb.group({
+      userName: [null, Validators.required],
+      email: [null, [Validators.required, Validators.email]],
+      password: [null, [Validators.required, Validators.minLength(8)]],
+      confirmPassword: [null, Validators.required],
+      mobile: [null, [Validators.required, Validators.maxLength(30)]]
+    }, { validators: this.passwordMatchingValidator });
+    };
 
   passwordMatchingValidator: ValidatorFn = (
     control: AbstractControl
@@ -45,6 +64,15 @@ export class UserRegisterComponent implements OnInit {
 
     return password === confirmPassword ? null : {notMatched : true} ;
   };
+
+  userData(): User {
+    return this.user = {
+      userName: this.userName.value,
+      email: this.email.value,
+      password: this.password.value,
+      mobile: this.mobile.value
+    }
+  }
 
   get userName() {
     return this.registrationForm.get('userName') as FormControl;
@@ -67,6 +95,14 @@ export class UserRegisterComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.registrationForm.value);
-  }
+    if (this.registrationForm.invalid) {
+      this.registrationForm.markAllAsTouched();
+      alertify.error('Please correct the errors in the form.');
+      return;
+    } 
+
+    this.userService.addUser(this.userData());
+    this.registrationForm.reset();
+    alertify.success('Registration Successful');
+  }  
 }
