@@ -1,7 +1,164 @@
-.ng-invalid.ng-touched {
-    border-color: red;
+/* CARD STYLING */
+.card {
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  border: none;
 }
 
-.error-block {
-    color: red;
+/* CARD HEADER */
+.card-header {
+  font-size: 1.3rem;
+  font-weight: 600;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e2e2e2;
+  border-radius: 12px 12px 0 0;
+  padding: 1rem 1.5rem;
+}
+
+/* NAV TABS */
+.nav-tabs .nav-link {
+  color: #495057;
+  font-weight: 500;
+}
+
+.nav-tabs .nav-link.active {
+  color: #fff;
+  background-color: #0d6efd;
+  border-color: #0d6efd #0d6efd #fff;
+  border-radius: 8px 8px 0 0;
+}
+
+/* FORM GROUPS */
+.form-group label {
+  font-weight: 500;
+}
+
+input.form-control,
+textarea.form-control,
+select.form-control {
+  border-radius: 8px;
+  padding: 0.6rem;
+  border: 1px solid #ced4da;
+}
+
+input.form-control:focus,
+textarea.form-control:focus,
+select.form-control:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.2rem rgba(13,110,253,.25);
+}
+
+/* RADIO BUTTONS */
+.form-check-label {
+  font-weight: 400;
+  margin-right: 1rem;
+}
+
+/* NAVIGATION BUTTONS */
+button.btn {
+  min-width: 100px;
+  border-radius: 8px;
+}
+
+button.btn + button.btn {
+  margin-left: 0.5rem;
+}
+
+/* OTHER DETAILS TAB */
+.other-details-tab .form-group,
+.other-details-tab .row {
+  margin-bottom: 1rem;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .nav-tabs {
+    flex-wrap: wrap;
+  }
+
+  .row > .col {
+    margin-bottom: 1rem;
+  }
+}
+
+/* PREVIEW BOX */
+.preview-box {
+  background-color: #f9f9f9;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+/* IMAGE STYLING */
+.preview-box img {
+  max-width: 200px;  /* smaller image */
+  height: auto;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  object-fit: cover; /* maintains aspect ratio */
+}
+
+/* TEXT BELOW IMAGE */
+.preview-box p {
+  margin: 0.3rem 0;
+  font-size: 0.9rem;
+}
+
+/* Optional: scroll inside preview if too tall */
+@media (min-width: 768px) {
+  .preview-box {
+    max-height: 500px;
+    overflow-y: auto;
+  }
+}
+
+/* Mobile: stack vertically */
+@media (max-width: 767px) {
+  .preview-box {
+    margin-top: 20px;
+  }
+
+  .preview-box img {
+    max-width: 100%; /* full width on mobile */
+  }
+}
+
+/* OPTION CARDS */
+.option-group {
+  row-gap: 12px;
+}
+
+.option-card {
+  display: block;
+  cursor: pointer;
+}
+
+.option-content {
+  text-align: center;
+  padding: 16px 10px;
+  border-radius: 10px;
+  border: 2px solid #dee2e6;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  background-color: #fff;
+}
+
+/* Hover */
+.option-card:hover .option-content {
+  border-color: #0d6efd;
+}
+
+/* Selected state */
+.option-card input:checked + .option-content {
+  background-color: #0d6efd;
+  color: #fff;
+  border-color: #0d6efd;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .option-content {
+    padding: 12px;
+  }
 }

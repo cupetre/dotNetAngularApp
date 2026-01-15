@@ -1,35 +1,139 @@
 <div class="card">
-
   <div class="card-header">
     Add New Property
   </div>
 
   <div class="card-body">
-    <form (ngSubmit)="OnSubmit(Form)" #Form="ngForm">
-      <div class="form-group col-12">
-        <label for="name"> Name</label>
-        <input type="text" class="form-control" name="Name" ngModel #propName="ngModel" required minlength="5" />
-        <span *ngIf="!propName.valid && propName.touched" class="error-block">
-          <span *ngIf="propName.errors?.[required]">Provide a name</span>
-          <span *ngIf="propName.errors?.[minlength]">Name must be 5 letters minimum long</span>
-        </span>
+
+    <!-- Tabs -->
+    <ul class="nav nav-tabs mb-3">
+      <li class="nav-item">
+        <a class="nav-link" [class.active]="currentTab===0" (click)="currentTab=0">Basic Info</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [class.active]="currentTab===1" (click)="currentTab=1">Photos</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [class.active]="currentTab===2" (click)="currentTab=2">Address</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [class.active]="currentTab===3" (click)="currentTab=3">Other Details</a>
+      </li>
+    </ul>
+
+    <form #addPropertyForm="ngForm" (ngSubmit)="OnSubmit(addPropertyForm)">
+
+      <div class="row">
+        <!-- LEFT: FORM -->
+        <div class="col-md-7">
+
+          <!-- BASIC INFO -->
+          <div *ngIf="currentTab === 0">
+            <div class="form-group mb-3">
+              <label>Sell or Rent</label>
+              <select class="form-control" [(ngModel)]="property.SellRent" name="SellRent" required>
+                <option value="" disabled>Select</option>
+                <option [value]="1">Sell</option>
+                <option [value]="2">Rent</option>
+              </select>
+            </div>
+
+            <div class="form-group mb-3">
+              <label>Name</label>
+              <input type="text" class="form-control" [(ngModel)]="property.Name" name="Name" required>
+            </div>
+
+            <div class="form-group mb-3">
+              <label>BHK</label>
+              <select class="form-control" [(ngModel)]="property.BHK" name="BHK">
+                <option *ngFor="let n of bhkOptions" [value]="n">{{n}}</option>
+              </select>
+            </div>
+
+            <div class="row option-group">
+              <div class="col-md-4" *ngFor="let t of propertyTypes">
+                <label class="option-card">
+                  <input type="radio" name="Type" [value]="t" [(ngModel)]="property.Type" hidden />
+                  <div class="option-content">
+                    {{ t }}
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <div class="row option-group">
+              <div class="col-md-4" *ngFor="let f of furnishTypes">
+                <label class="option-card">
+                  <input type="radio" name="FurnishingType" [value]="f" [(ngModel)]="property.FurnishingType" hidden />
+                  <div class="option-content">
+                    {{ f }}
+                  </div>
+                </label>
+              </div>
+            </div> <br>
+
+            <div *ngIf="currentTab === 0">
+            <input type="number" class="form-control mb-2" placeholder="Price" [(ngModel)]="property.Price"
+              name="Price">
+            <input type="number" class="form-control" placeholder="Area (sq.m)" name="Area" ngModel>
+          </div>
+
+          </div>
+
+          <!-- PHOTOS -->
+          <div *ngIf="currentTab === 1">
+            <label>Photos</label>
+            <input type="file" class="form-control" (change)="onPhotoSelected($event)">
+          </div>
+
+          <!-- ADDRESS -->
+          <div *ngIf="currentTab === 2">
+            <input class="form-control mb-2" placeholder="Street" name="Street" ngModel>
+            <input class="form-control mb-2" placeholder="City" name="City" ngModel>
+            <input class="form-control" placeholder="ZIP" name="Zip" ngModel>
+          </div>
+
+          <!-- OTHER DETAILS -->
+          <div *ngIf="currentTab === 3">
+            <label>Ready to Move?</label><br>
+            <label><input type="radio" name="ReadyToMove" value="Yes" ngModel> Yes</label>
+            <label class="ms-3"><input type="radio" name="ReadyToMove" value="No" ngModel> No</label>
+
+            <div class="row mt-3">
+              <div class="col">
+                <label>Available From</label>
+                <input type="date" class="form-control" name="AvailableFrom" ngModel>
+              </div>
+              <div class="col">
+                <label>Available To</label>
+                <input type="date" class="form-control" name="AvailableTo" ngModel>
+              </div>
+            </div> <br>
+              <label>Description</label>
+            <textarea class="form-control mt-3" rows="3" name="Description" ngModel></textarea>
+          </div>
+
+        </div>
+
+        <!-- RIGHT: PREVIEW (ALWAYS VISIBLE) -->
+        <div class="col-md-5 preview-box text-center">
+          <h5>Preview</h5>
+          <img *ngIf="property.Image" [src]="property.Image" class="img-fluid rounded mb-3">
+          <p><strong>{{property.Name || 'Property Name'}}</strong></p>
+          <p>{{property.Type}} · {{property.BHK}} BHK</p>
+          <p>{{property.SellRent === 1 ? 'For Sale' : 'For Rent'}}</p>
+          <p>{{property.Price | currency}}</p>
+        </div>
       </div>
 
-      <div class="form-group col-12">
-        <label for="type"> Type</label>
-        <input type="text" class="form-control" ngModel name="Type">
+      <!-- NAV BUTTONS -->
+      <div class="mt-3">
+        <button type="button" class="btn btn-secondary" (click)="prevTab()"
+          [disabled]="currentTab===0">Previous</button>
+        <button type="button" class="btn btn-primary" (click)="nextTab()" *ngIf="currentTab<4">Next</button>
+        <button type="submit" class="btn btn-success" *ngIf="currentTab===4">Submit</button>
       </div>
 
-      <div class="form-group col-12">
-        <label for="price"> Price</label>
-        <input type="text" class="form-control" ngModel name="Price">
-      </div>
-
-      <div class="form-group col-12">
-        <button [disabled]="!Form.valid" type="submit" class="btn btn-primary"> Save</button>
-        <button type="reset" class="btn btn-primary"> Cancel</button>
-      </div>
     </form>
   </div>
-
 </div>

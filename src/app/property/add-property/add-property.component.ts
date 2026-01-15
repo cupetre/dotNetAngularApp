@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { iProperty } from '../../iProperty';
 
 @Component({
   selector: 'app-add-property',
@@ -14,13 +15,50 @@ import { Router } from '@angular/router';
 })
 export class AddPropertyComponent implements OnInit {
 
-  @ViewChild('Form') addPropertyForm!: NgForm;
-  required = 'true';
+  currentTab: number = 0 ;
+  required = false;
   minlength = 5;
+
+  bhkOptions = [1,2,3,4,5];
+  propertyTypes = ['House','Apartment','Duplex'];
+  furnishTypes = ['Furnished','Semi-Furnished','Unfurnished']
+
+  property: iProperty = {
+    id: 0,
+    SellRent: 1,
+    Name: '',
+    Type: '',
+    Price: 0,
+    BHK: 0,
+    FurnishingType: '',
+    Image: 'default.png'
+  }
+
+  @ViewChild('Form') addPropertyForm!: NgForm;
 
   constructor(private router:Router) { }
 
   ngOnInit() {
+  }
+
+  onPhotoSelected(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => { 
+      this.property = { ...this.property, Image: reader.result as string };
+    };
+
+    reader.readAsDataURL(file);
+  }
+
+  nextTab() {
+    if(this.currentTab < 3 ) this.currentTab++;
+  }
+
+  prevTab() {
+    if ( this.currentTab > 0 ) this.currentTab--;
   }
 
   onBack() {
@@ -30,6 +68,17 @@ export class AddPropertyComponent implements OnInit {
   OnSubmit(Form : NgForm) { 
     console.log("works fine");
     console.log(this.addPropertyForm);
+  }
+
+  isCurrentTabValid(): boolean {
+    switch (this.currentTab) {
+      case 0:return this.addPropertyForm.controls['basicInfo']?.valid || false;
+      case 1:return this.addPropertyForm.controls['priceInfo']?.valid || false;
+      case 2:return this.addPropertyForm.controls['addressInfo']?.valid || false;
+      case 3:return this.addPropertyForm.controls['otherInfo']?.valid || false;
+      case 4:return this.addPropertyForm.controls['photoInfo']?.valid || false;
+      default:return false;
+    }
   }
 
 }

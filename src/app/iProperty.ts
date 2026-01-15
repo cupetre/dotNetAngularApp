@@ -4,5 +4,7 @@ export interface iProperty {
     Name: string;
     Type: string;
     Price: number; 
+    BHK: number;
+    FurnishingType: string;
     Image?: string;
 }
