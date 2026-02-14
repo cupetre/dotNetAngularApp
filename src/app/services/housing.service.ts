@@ -7,24 +7,36 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
+
 export class HousingService {
+
+  private storageKey = 'properties';
 
   constructor(private http: HttpClient) {
 
   }
 
-  getAllProperties(SellRent: number): Observable<Iproperty[]> {
-  return this.http.get<any[]>('properties.json').pipe(
-    map(data => {
-      const propertiesArray: Array<Iproperty> = [];
-      for (const id in data) {
-        if (data.hasOwnProperty(id) && data[id].SellRent === SellRent) {
-          propertiesArray.push(data[id]);
-        }
-      }
-      return propertiesArray;
-    })
-  );
-}
+  getAllProperties(sellRent: number): Observable<Iproperty[]> {
+
+    const stored = localStorage.getItem(this.storageKey);
+    const localProps: Iproperty[] = stored ? JSON.parse(stored) : [];
+
+    return this.http.get<Iproperty[]>('/properties.json').pipe(
+      map(jsonProps => {
+        const all = [...jsonProps, ...localProps];
+        return all.filter(p => p.SellRent === sellRent);
+      })
+    );
+  }
+
+  addProperty(property: Iproperty) {
+    const stored = localStorage.getItem(this.storageKey);
+    const properties = stored ? JSON.parse(stored) : [];
+
+    property.id = Date.now();
+    properties.push(property);
+
+    localStorage.setItem(this.storageKey, JSON.stringify(properties));
+  }
 
 }

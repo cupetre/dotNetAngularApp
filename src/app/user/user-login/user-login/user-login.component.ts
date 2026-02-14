@@ -42,15 +42,18 @@ export class UserLoginComponent implements OnInit {
       return;
     }
 
-    console.log(this.loginForm.value);
-    const token = this.authService.authUser(this.loginForm.value);
-    if (token) {
-      localStorage.setItem('token', token.userName);
-      console.log('Successful login');
-      this.router.navigate(['/']);
-    } else {
-      console.log('Invalid credentials');
-    }
+    const { email, password } = this.loginForm.value;
+    this.authService.login(email, password).subscribe(
+      (response) => {
+        console.log('Successful login');
+        alert('Login successful!');
+        this.router.navigate(['/']);
+      },
+      (error) => {
+        console.log('Invalid credentials', error);
+        alert('Login failed: Invalid email or password');
+      }
+    );
   }
 
 }

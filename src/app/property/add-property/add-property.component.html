@@ -130,10 +130,24 @@
 
       <!-- NAV BUTTONS -->
       <div class="mt-3">
-        <button type="button" class="btn btn-secondary" (click)="prevTab()"
-          [disabled]="currentTab===0">Previous</button>
-        <button type="button" class="btn btn-primary" (click)="nextTab()" *ngIf="currentTab<4">Next</button>
-        <button type="submit" class="btn btn-success" *ngIf="currentTab===4">Submit</button>
+        <button 
+        type="button"
+        class="btn btn-secondary"
+        (click)="prevTab()"
+        [disabled]="currentTab === 0">
+        Previous</button>
+
+        <button 
+        type="button" 
+        class="btn btn-primary" 
+        (click)="nextTab()" 
+        *ngIf="currentTab<3">
+        Next</button>
+        <button 
+        type="submit" 
+        class="btn btn-success" 
+        *ngIf="currentTab === 3">
+        Submit</button>
       </div>
 
     </form>

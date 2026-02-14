@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validator, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserServiceService } from '../../../services/user-service.service';
+import { AuthServiceService } from '../../../services/auth-service.service';
 import { User } from '../../../model/user';
 import * as alertify from 'alertifyjs';
 import { AlertifyServiceService } from '../../../services/alertify-service.service';
@@ -27,7 +27,7 @@ export class UserRegisterComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private fb: FormBuilder,
-    private userService: UserServiceService,
+    private authService: AuthServiceService,
     private alertify: AlertifyServiceService
   ) {}
 
@@ -101,8 +101,17 @@ export class UserRegisterComponent implements OnInit {
       return;
     } 
 
-    this.userService.addUser(this.userData());
-    this.registrationForm.reset();
-    alertify.success('Registration Successful');
+    const { email, password } = this.registrationForm.value;
+    this.authService.register(email, password).subscribe(
+      (response) => {
+        this.registrationForm.reset();
+        alertify.success('Registration Successful! Please login.');
+        this.router.navigate(['/user-login']);
+      },
+      (error) => {
+        console.log('Registration error', error);
+        alertify.error('Registration failed: ' + (error.error?.message || 'Unknown error'));
+      }
+    );
   }  
 }

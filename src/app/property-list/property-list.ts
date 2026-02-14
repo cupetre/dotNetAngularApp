@@ -21,19 +21,21 @@ export class PropertyListComponent implements OnInit{
   SellRent = 1;
   properties: Array<Ipropertybase> = [];
 
-  constructor (private housingService: HousingService, private route:ActivatedRoute) {
+  constructor (private housingService: HousingService, 
+    private route:ActivatedRoute
+  ) {
 
   }
 
   ngOnInit(): void {
-    if ( this.route.snapshot.url.toString ()) {
-      this.SellRent = 2; // we are notifying that its a rent-property
+    if ( this.route.snapshot.url.toString().includes('rent')) {
+      this.SellRent = 2;
     }
     this.housingService.getAllProperties(this.SellRent).subscribe(
        data => {
         this.properties = data;
         console.log(data);
-        console.log(this.route.snapshot.url.toString);
+        console.log(this.route.snapshot.url.toString());
        }, error => {
         console.log('httperror');
        }

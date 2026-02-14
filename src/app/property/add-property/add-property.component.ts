@@ -3,6 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Iproperty } from '../../model/iproperty';
+import { HousingService } from '../../services/housing.service';
 
 @Component({
   selector: 'app-add-property',
@@ -24,7 +25,7 @@ export class AddPropertyComponent implements OnInit {
   furnishTypes = ['Furnished','Semi-Furnished','Unfurnished']
 
   property: Iproperty = {
-    Id: 0,
+    id: 0,
     SellRent: 1,
     Name: '',
     Type: '',
@@ -43,7 +44,9 @@ export class AddPropertyComponent implements OnInit {
 
   @ViewChild('Form') addPropertyForm!: NgForm;
 
-  constructor(private router:Router) { }
+  constructor(private router:Router,
+    private housingService: HousingService
+  ) { }
 
   ngOnInit() {
   }
@@ -61,7 +64,7 @@ export class AddPropertyComponent implements OnInit {
   }
 
   nextTab() {
-    if(this.currentTab < 3 ) this.currentTab++;
+    if( this.currentTab < 3 ) this.currentTab++;
   }
 
   prevTab() {
@@ -73,8 +76,10 @@ export class AddPropertyComponent implements OnInit {
   }
 
   OnSubmit(Form : NgForm) { 
-    console.log("works fine");
-    console.log(this.addPropertyForm);
+    if (Form.valid) {
+      this.housingService.addProperty(this.property);
+      this.router.navigate(['/']);
+    }  
   }
 
   isCurrentTabValid(): boolean {

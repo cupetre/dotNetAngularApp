@@ -4,7 +4,7 @@
   <div class="card-img-wrapper">
     <img
       class="propImg"
-      [src]="property.Image ? property.Image + '.jpg' : 'assets/default.jpg'"
+      [src]="property.Image || 'default.png' "
       alt="Property Image"
     >
 
@@ -16,7 +16,7 @@
     <!-- Action icons -->
     <ul class="member-icons">
       <li>
-        <button routerLink="/detail-property/{{property.Id}}">
+        <button routerLink="/detail-property/{{property.id}}">
           <i class="fa-solid fa-eye"></i>
         </button>
       </li>
