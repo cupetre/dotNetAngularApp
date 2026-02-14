@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PropertyCardComponent } from '../property/property-card/property-card.component';
 import { HousingService } from '../services/housing.service';
-import { iProperty } from '../iProperty';
+import { Ipropertybase } from '../model/ipropertybase';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -19,7 +19,7 @@ import { ActivatedRoute } from '@angular/router';
 export class PropertyListComponent implements OnInit{
 
   SellRent = 1;
-  properties: Array<iProperty> = [];
+  properties: Array<Ipropertybase> = [];
 
   constructor (private housingService: HousingService, private route:ActivatedRoute) {
 

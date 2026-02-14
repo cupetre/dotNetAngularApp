@@ -1,19 +1,77 @@
-<div class="card">
-    <div class="card-img-wrapper">
-        <img *ngIf="property.Image" class="propImg" src="{{property.Image}}.jpg">        
-        <img *ngIf="!property.Image" class="propImg" src="{{property.Image}}.jpg">
+<div class="card animate">
 
-        <ul class="member-icons">
-            <li>
-                <button routerLink="/detail-property/{{property.id}}" class="btn btn-primay"><i class="fa-solid fa-pen-to-square"></i></button>
-            <li>
-                <button class="btn btn-primay"><i class="fa-regular fa-address-book"></i></button>
-            </li>
-        </ul>
+  <!-- IMAGE -->
+  <div class="card-img-wrapper">
+    <img
+      class="propImg"
+      [src]="property.Image ? property.Image + '.jpg' : 'assets/default.jpg'"
+      alt="Property Image"
+    >
+
+    <!-- Sell / Rent Badge -->
+    <span class="badge badge-type">
+      {{ property.SellRent === 1 ? 'FOR SALE' : 'FOR RENT' }}
+    </span>
+
+    <!-- Action icons -->
+    <ul class="member-icons">
+      <li>
+        <button routerLink="/detail-property/{{property.Id}}">
+          <i class="fa-solid fa-eye"></i>
+        </button>
+      </li>
+      <li>
+        <button>
+          <i class="fa-regular fa-heart"></i>
+        </button>
+      </li>
+    </ul>
+  </div>
+
+  <!-- BODY -->
+  <div class="card-body">
+
+    <!-- PRICE -->
+    <div class="price">
+      {{ property.Price | currency }}
     </div>
-    <div class="card-body">
-        <h1 class="price">{{ property?.Price }}</h1>
-        <h2 class="type">{{ property?.Type }}</h2>
-        <h2 class="name">{{ property?.Name }}</h2>
+
+    <!-- NAME -->
+    <div class="name">
+      {{ property.Name }}
     </div>
+
+    <!-- TYPE + BHK -->
+    <div class="type">
+      <i class="fa-solid fa-house"></i>
+      {{ property.Type }} · {{ property.BHK }} BHK
+    </div>
+
+    <!-- META INFO -->
+    <div class="meta-row">
+
+      <span class="meta-item">
+        <i class="fa-solid fa-couch"></i>
+        {{ property.FurnishingType }}
+      </span>
+
+      <span class="meta-item">
+        <i class="fa-solid fa-check-circle"></i>
+        {{ property.RTM === 1 ? 'Ready' : 'Not Ready' }}
+      </span>
+
+      <span class="meta-item">
+        <i class="fa-solid fa-location-dot"></i>
+        {{ property.City }}
+      </span>
+
+    </div>
+
+    <!-- RENT ONLY -->
+    <div class="availability" *ngIf="property.SellRent === 2">
+      <i class="fa-regular fa-calendar"></i>
+      {{ property.DateStart }} – {{ property.DateEnd }}
+    </div>
+
+  </div>
 </div>

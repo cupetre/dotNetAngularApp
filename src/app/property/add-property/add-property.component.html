@@ -88,29 +88,31 @@
 
           <!-- ADDRESS -->
           <div *ngIf="currentTab === 2">
-            <input class="form-control mb-2" placeholder="Street" name="Street" ngModel>
-            <input class="form-control mb-2" placeholder="City" name="City" ngModel>
-            <input class="form-control" placeholder="ZIP" name="Zip" ngModel>
+            <input type="string" class="form-control mb-2" placeholder="Street" [(ngModel)]="property.Street" name="Street">
+            <input type="string" class="form-control mb-2" placeholder="City" [(ngModel)]="property.City" name="City">
+            <input type="number" class="form-control" placeholder="ZIP" [(ngModel)]="property.Zipcode" name="Zip">
           </div>
 
           <!-- OTHER DETAILS -->
           <div *ngIf="currentTab === 3">
             <label>Ready to Move?</label><br>
-            <label><input type="radio" name="ReadyToMove" value="Yes" ngModel> Yes</label>
-            <label class="ms-3"><input type="radio" name="ReadyToMove" value="No" ngModel> No</label>
+            <label>
+              <input type="radio" name="ReadyToMove" value="Yes" [(ngModel)]="property.RTM" [value]="1"> Yes</label>
+            <label class="ms-3">
+              <input type="radio" name="ReadyToMove" value="No" [(ngModel)]="property.RTM" [value]="0"> No</label>
 
             <div class="row mt-3">
               <div class="col">
                 <label>Available From</label>
-                <input type="date" class="form-control" name="AvailableFrom" ngModel>
+                <input type="date" class="form-control" name="AvailableFrom" [(ngModel)]="property.DateStart">
               </div>
               <div class="col">
                 <label>Available To</label>
-                <input type="date" class="form-control" name="AvailableTo" ngModel>
+                <input type="date" class="form-control" name="AvailableTo" [(ngModel)]="property.DateEnd">
               </div>
             </div> <br>
               <label>Description</label>
-            <textarea class="form-control mt-3" rows="3" name="Description" ngModel></textarea>
+            <textarea class="form-control mt-3" rows="3" name="Description" [(ngModel)]="property.Description"></textarea>
           </div>
 
         </div>

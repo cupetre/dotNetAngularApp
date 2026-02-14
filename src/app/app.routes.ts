@@ -12,5 +12,5 @@ export const routes: Routes = [
   { path: 'detail-property/:id', component: PropertyDetailComponent},
   { path: "user/login", component: UserLoginComponent},
   { path: "user/register", component: UserRegisterComponent},
-  { path: "**" , component: PropertyListComponent} //sekogas stavaj go posledno da mu ebam pelenata skapana
+  { path: "**" , component: PropertyListComponent} //sekogas stavaj go posledno 
 ]

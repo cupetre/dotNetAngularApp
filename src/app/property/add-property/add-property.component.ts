@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { iProperty } from '../../iProperty';
+import { Iproperty } from '../../model/iproperty';
 
 @Component({
   selector: 'app-add-property',
@@ -23,15 +23,22 @@ export class AddPropertyComponent implements OnInit {
   propertyTypes = ['House','Apartment','Duplex'];
   furnishTypes = ['Furnished','Semi-Furnished','Unfurnished']
 
-  property: iProperty = {
-    id: 0,
+  property: Iproperty = {
+    Id: 0,
     SellRent: 1,
     Name: '',
     Type: '',
     Price: 0,
     BHK: 0,
     FurnishingType: '',
-    Image: 'default.png'
+    Image: 'default.png',
+    Street: '',
+    City: '',
+    Zipcode: '',
+    RTM: 0,
+    DateStart: '',
+    DateEnd: '',
+    Description: ''
   }
 
   @ViewChild('Form') addPropertyForm!: NgForm;
