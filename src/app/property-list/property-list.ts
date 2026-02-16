@@ -2,16 +2,22 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PropertyCardComponent } from '../property-card/property-card.component';
 import { HousingService } from '../services/housing.service';
-import { Ipropertybase } from '../model/ipropertybase';
 import { ActivatedRoute } from '@angular/router';
+import { FilterPipe } from "../Pipes/filter.pipe";
+import { SortPipe } from "../Pipes/sort.pipe";
+import { Iproperty } from '../model/iproperty';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-property-list',
   standalone : true,
   imports: [
-    CommonModule, 
-    PropertyCardComponent
-    ],
+    CommonModule,
+    PropertyCardComponent,
+    FilterPipe,
+    SortPipe,
+    FormsModule
+],
   templateUrl: './property-list.html',
   styleUrls: ['./property-list.css']
 })
@@ -19,13 +25,33 @@ import { ActivatedRoute } from '@angular/router';
 export class PropertyListComponent implements OnInit{
 
   SellRent = 1;
-  properties: Array<Ipropertybase> = [];
+  properties: Array<Iproperty> = [];
 
-  constructor (private housingService: HousingService, 
+  //for filter and sort
+  bhkOptions = [1,2,3,4,5];
+  propertyTypes = ['House','Apartment','Duplex'];
+  furnishTypes = ['Furnished','Semi-Furnished','Unfurnished'];
+
+  selectedType = '';
+  selectedFurnish = '';
+  selectedBHK: number = 0;
+  sortField = '';
+  sortDirection = '';
+
+  constructor (
+    private housingService: HousingService, 
     private route:ActivatedRoute
   ) {
 
   }
+
+  resetFilters() {
+    this.selectedType = '';
+    this.selectedFurnish = '';
+    this.selectedBHK = 0;
+    this.sortField = '';
+    this.sortDirection = 'asc';
+  };
 
   ngOnInit(): void {
 
@@ -45,4 +71,5 @@ export class PropertyListComponent implements OnInit{
   });
 
 }
+
 }

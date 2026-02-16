@@ -1,7 +1,48 @@
 <div class="property-container">
-    <div class="property-grid">
-        <div *ngFor="let property of properties" class="property-item">
-            <app-property-card [property]="property"></app-property-card>
-        </div>
+
+  <!-- FILTER + SORT BAR -->
+  <div class="filter-sort-container">
+    <div class="filters">
+      <label for="type">Type:</label>
+      <select id="type" [(ngModel)]="selectedType" name="type">
+        <option value="">All</option>
+        <option *ngFor="let t of propertyTypes" [value]="t">{{ t }}</option>
+      </select>
+
+      <label for="furnish">Furnishing:</label>
+      <select id="furnish" [(ngModel)]="selectedFurnish" name="furnish">
+        <option value="">All</option>
+        <option *ngFor="let f of furnishTypes" [value]="f">{{ f }}</option>
+      </select>
+
+      <label for="bhk">BHK:</label>
+      <select id="bhk" [(ngModel)]="selectedBHK" name="bhk">
+        <option value="">All</option>
+        <option *ngFor="let b of bhkOptions" [value]="b">{{ b }}</option>
+      </select>
     </div>
+
+    <div class="sorter">
+      <label for="sortField">Sort by:</label>
+      <select id="sortField" [(ngModel)]="sortField" name="sortField">
+        <option value="">Default</option>
+        <option value="Price">Price</option>
+        <option value="BHK">BHK</option>
+      </select>
+
+      <label for="sortDir">Direction:</label>
+      <select id="sortDir" [(ngModel)]="sortDirection" name="sortDirection">
+        <option value="asc">Ascending</option>
+        <option value="desc">Descending</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- PROPERTY GRID -->
+  <div class="property-grid">
+    <app-property-card
+      *ngFor="let p of properties | filter:selectedType:selectedFurnish:selectedBHK | sort:sortField:sortDirection"
+      [property]="p">
+    </app-property-card>
+  </div>
 </div>

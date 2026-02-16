@@ -1,8 +1,10 @@
 .card {
-    width: 250px;
     background: white;
     border-radius: 12px;
     overflow: hidden;
+    height: 360px;
+    display: flex;
+    flex-direction: column;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -10,12 +12,14 @@
 .card:hover {
     transform: translateY(-5px);
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
 }
 
 .card-img-wrapper {
     overflow: hidden;
     position: relative;
     height: 180px;
+    flex-shrink: 0;
     background: #ddd;
 }
 
@@ -77,6 +81,7 @@
 .card-body {
     padding: 15px;
 }
+
 
 .card-body .price {
     font-size: 22px;

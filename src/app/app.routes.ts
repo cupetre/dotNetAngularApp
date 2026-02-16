@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { PropertyListComponent } from './property-list/property-list';
-import { AddPropertyComponent } from './property/add-property/add-property.component';
+import { AddPropertyComponent } from './add-property/add-property.component';
 import { PropertyDetailComponent } from './property-detail/property-detail.component';
 import { UserLoginComponent } from './user/user-login/user-login/user-login.component';
 import { UserRegisterComponent } from './user/user-register/user-register/user-register.component';

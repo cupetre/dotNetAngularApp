@@ -1,38 +1,58 @@
 .property-container {
-    max-width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
     padding: 20px;
+    font-family: 'Inter', sans-serif;
+}
+
+.filter-sort-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 15px;
+    background: #fff;
+    padding: 15px 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    margin-bottom: 25px;
+}
+
+.filters, .sorter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.filters label, .sorter label {
+    font-weight: 600;
+    color: #333;
+}
+
+.filters select, .sorter select {
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    background: #f9f9f9;
+    transition: 0.2s all;
+}
+
+.filters select:hover, .sorter select:hover {
+    border-color: #007bff;
+    background: #fff;
 }
 
 .property-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, 250px);
-    gap: 25px;
-    padding: 10px;
-    justify-content: center;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
 }
 
-@media (min-width: 1200px) {
-    .property-grid {
-        grid-template-columns: repeat(4, 250px);
-        max-width: 1100px;
-        margin: 0 auto;
-    }
+.property-grid app-property-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.property-container::-webkit-scrollbar {
-    height: 10px;
-}
-
-.property-container::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 10px;
-}
-
-.property-container::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 10px;
-}
-
-.property-container::-webkit-scrollbar-thumb:hover {
-    background: #555;
+.property-grid app-property-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
 }
