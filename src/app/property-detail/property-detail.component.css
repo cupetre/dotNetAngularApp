@@ -1,0 +1,118 @@
+.property-detail {
+  max-width: 1300px;
+}
+
+/* CARD */
+.property-card {
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  border: none;
+  padding: 20px;
+}
+
+/* GALLERY SECTION */
+.gallery-section {
+  padding: 20px;
+}
+
+/* MAIN IMAGE */
+.main-image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 520px;
+  overflow: hidden;
+  border-radius: 16px;
+  background: #f5f5f5;
+}
+
+/* Hide all images initially */
+.main-image {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+/* Show first image by default */
+.main-image:first-child {
+  opacity: 1;
+}
+
+/* Show image when targeted */
+.main-image:target {
+  opacity: 1;
+  z-index: 2;
+}
+
+/* THUMBNAILS */
+.thumbnail-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+
+.thumbnail-row img {
+  width: 90px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  opacity: 0.8;
+}
+
+.thumbnail-row img:hover {
+  transform: scale(1.05);
+  opacity: 1;
+}
+
+/* DETAILS SECTION */
+.details-section {
+  padding: 30px;
+}
+
+.property-title {
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.price {
+  font-size: 26px;
+  color: #0d6efd;
+  margin-bottom: 15px;
+}
+
+.meta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.meta span {
+  background: #eef2f7;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+/* ACTION BUTTONS */
+.action-buttons button {
+  min-width: 140px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 992px) {
+
+  .main-image-wrapper {
+    height: 350px;
+  }
+
+  .details-section {
+    padding: 20px;
+  }
+}

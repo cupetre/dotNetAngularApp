@@ -16,7 +16,7 @@ export class NavBarComponent implements OnInit {
 
   loggedInUser: string | null = null;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }
@@ -28,6 +28,14 @@ export class NavBarComponent implements OnInit {
 
   onLogout() {
     localStorage.removeItem('token');
+  }
+
+  buyProps() {
+    this.router.navigate(['/']);
+  }
+
+  rentProps() {
+    this.router.navigate(['/rent']);
   }
 
 }

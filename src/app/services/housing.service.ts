@@ -17,7 +17,6 @@ export class HousingService {
   }
 
   getAllProperties(sellRent: number): Observable<Iproperty[]> {
-
     const stored = localStorage.getItem(this.storageKey);
     const localProps: Iproperty[] = stored ? JSON.parse(stored) : [];
 
@@ -38,5 +37,17 @@ export class HousingService {
 
     localStorage.setItem(this.storageKey, JSON.stringify(properties));
   }
+
+  getPropertyById(id: number): Observable<Iproperty | undefined> {
+  const stored = localStorage.getItem(this.storageKey);
+  const localProps: Iproperty[] = stored ? JSON.parse(stored) : [];
+
+  return this.http.get<Iproperty[]>('/properties.json').pipe(
+    map(jsonProps => {
+      const all = [...jsonProps, ...localProps];
+      return all.find(p => p.id === id);
+    })
+  );
+}
 
 }

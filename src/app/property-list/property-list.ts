@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PropertyCardComponent } from '../property/property-card/property-card.component';
+import { PropertyCardComponent } from '../property-card/property-card.component';
 import { HousingService } from '../services/housing.service';
 import { Ipropertybase } from '../model/ipropertybase';
 import { ActivatedRoute } from '@angular/router';
@@ -28,17 +28,21 @@ export class PropertyListComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    if ( this.route.snapshot.url.toString().includes('rent')) {
+
+  this.route.url.subscribe(url => {
+
+    if (url.toString().includes('rent')) {
       this.SellRent = 2;
+    } else {
+      this.SellRent = 1;
     }
-    this.housingService.getAllProperties(this.SellRent).subscribe(
-       data => {
+
+    this.housingService.getAllProperties(this.SellRent)
+      .subscribe(data => {
         this.properties = data;
-        console.log(data);
-        console.log(this.route.snapshot.url.toString());
-       }, error => {
-        console.log('httperror');
-       }
-    )
-  };
+      });
+
+  });
+
+}
 }

@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Iproperty } from '../../model/iproperty';
-import { HousingService } from '../../services/housing.service';
+import { Iproperty } from '../model/iproperty';
+import { HousingService } from '../services/housing.service';
 
 @Component({
   selector: 'app-add-property',

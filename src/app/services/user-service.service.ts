@@ -18,5 +18,6 @@ addUser(user: User) {
       users = [user];
     }
     localStorage.setItem('Users', JSON.stringify(users));
-  }
+}
+
 }

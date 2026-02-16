@@ -1,6 +1,79 @@
-<p>
-  Selected property id is {{propertyId}};
-  <br /> <br />
+<div class="container property-detail mt-5" *ngIf="property">
 
-  <button (click)="onSelectedNext()" class="btn btn-primary"> Select Next Page </button>
-</p>
+  <div class="card property-card">
+
+    <div class="row g-0">
+
+      <!-- IMAGE SECTION -->
+      <div class="col-lg-7 gallery-section">
+
+        <div class="main-image-wrapper">
+
+          <img id="img1" src="stan1.png" class="main-image">
+          <img id="img2" src="stan2.jpg" class="main-image">
+          <img id="img3" src="stan3.png" class="main-image">
+          <img id="img4" src="stan4.png" class="main-image">
+
+        </div>
+
+        <!-- THUMBNAILS -->
+        <div class="thumbnail-row">
+          <a href="#img1">
+            <img src="stan1.png">
+          </a>
+          <a href="#img2">
+            <img src="stan2.jpg">
+          </a>
+          <a href="#img3">
+            <img src="stan3.png">
+          </a>
+          <a href="#img4">
+            <img src="stan4.png">
+          </a>
+        </div>
+
+      </div>
+
+      <!-- DETAILS SECTION -->
+      <div class="col-lg-5 details-section">
+
+        <h2 class="property-title">{{ property.Name }}</h2>
+        <h4 class="price">{{ property.Price | currency }}</h4>
+
+        <div class="meta">
+          <span>{{ property.Type }}</span>
+          <span>{{ property.BHK }} BHK</span>
+          <span>{{ property.FurnishingType }}</span>
+        </div>
+
+        <hr>
+
+        <p><strong>Status:</strong> {{ property.SellRent === 1 ? 'For Sale' : 'For Rent' }}</p>
+        <p><strong>Ready to Move:</strong> {{ property.RTM === 1 ? 'Yes' : 'No' }}</p>
+
+        <p>
+          <strong>Address:</strong><br>
+          {{ property.Street }}, {{ property.City }} {{ property.Zipcode }}
+        </p>
+
+        <p>
+          <strong>Available:</strong><br>
+          {{ property.DateStart }} → {{ property.DateEnd }}
+        </p>
+
+        <div class="actions buttons mt-4">
+          <button class="btn btn-outline-secondary mt-4" (click)="onSelectedNext()">
+            Next Property →
+          </button>
+          <button class="btn btn-outline-secondary mt-4" (click)="backToMain()">
+            Back to List
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
