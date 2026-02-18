@@ -1,0 +1,58 @@
+# ---------------------------
+# Visual Studio / .NET
+# ---------------------------
+.vs/
+*.user
+*.suo
+*.sln.docstates
+*.sln.ide
+*.sln.cache
+*.sln.DotSettings.user
+*.DotSettings.user
+
+# Build folders
+bin/
+obj/
+**/bin/
+**/obj/
+
+# Rider IDE
+.idea/
+
+# NuGet
+*.nupkg
+packages/
+.nuget/
+
+# Visual Studio Code
+.vscode/
+.history/
+
+# ASP.NET / web
+wwwroot/lib/
+wwwroot/node_modules/
+
+# Logs
+*.log
+
+# OS files
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# npm / frontend
+node_modules/
+dist/
+.env
+
+# Firebase or local secrets
+firebase-debug.log
+.env.local
+.env.*.local
+
+# Backup / temp
+*.tmp
+*.bak
+*.swp
+
+.fake
