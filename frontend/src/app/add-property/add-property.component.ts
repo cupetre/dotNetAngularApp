@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormsModule, NgForm } from '@angular/forms';
+import { FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Iproperty } from '../model/iproperty';
 import { HousingService } from '../services/housing.service';
@@ -10,11 +10,12 @@ import { HousingService } from '../services/housing.service';
   standalone: true,
   templateUrl: './add-property.component.html',
   imports: [CommonModule,
-    FormsModule
-  ],
+    FormsModule, ReactiveFormsModule],
   styleUrls: ['./add-property.component.css']
 })
 export class AddPropertyComponent implements OnInit {
+
+  cityList: any[] = [];
 
   currentTab: number = 0 ;
   required = false;
@@ -34,7 +35,7 @@ export class AddPropertyComponent implements OnInit {
     FurnishingType: '',
     Image: 'default.png',
     Street: '',
-    City: '',
+    City: 'Select City',
     Zipcode: '',
     RTM: 0,
     DateStart: '',
@@ -49,6 +50,10 @@ export class AddPropertyComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.housingService.getAllCities().subscribe( data => {
+      this.cityList = data;
+      console.log(data);
+    })
   }
 
   onPhotoSelected(event: Event) {
@@ -56,7 +61,7 @@ export class AddPropertyComponent implements OnInit {
     if (!file) return;
 
     const reader = new FileReader();
-    reader.onload = () => { 
+    reader.onload = () => {
       this.property = { ...this.property, Image: reader.result as string };
     };
 
@@ -75,11 +80,11 @@ export class AddPropertyComponent implements OnInit {
     this.router.navigate(['/']);
   }
 
-  OnSubmit(Form : NgForm) { 
+  OnSubmit(Form : NgForm) {
     if (Form.valid) {
       this.housingService.addProperty(this.property);
       this.router.navigate(['/']);
-    }  
+    }
   }
 
   isCurrentTabValid(): boolean {

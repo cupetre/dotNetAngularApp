@@ -89,7 +89,17 @@
           <!-- ADDRESS -->
           <div *ngIf="currentTab === 2">
             <input type="string" class="form-control mb-2" placeholder="Street" [(ngModel)]="property.Street" name="Street">
-            <input type="string" class="form-control mb-2" placeholder="City" [(ngModel)]="property.City" name="City">
+
+            <select
+            class="form-control mb-2"
+            [(ngModel)]="property.City"
+            placehollder = "City"
+            name="City"
+            >
+              <option
+              *ngFor="let city of cityList"
+              value={{city.id}}>{{city.name}}</option>
+            </select>
             <input type="number" class="form-control" placeholder="ZIP" [(ngModel)]="property.Zipcode" name="Zip">
           </div>
 
@@ -130,22 +140,22 @@
 
       <!-- NAV BUTTONS -->
       <div class="mt-3">
-        <button 
+        <button
         type="button"
         class="btn btn-secondary"
         (click)="prevTab()"
         [disabled]="currentTab === 0">
         Previous</button>
 
-        <button 
-        type="button" 
-        class="btn btn-primary" 
-        (click)="nextTab()" 
+        <button
+        type="button"
+        class="btn btn-primary"
+        (click)="nextTab()"
         *ngIf="currentTab<3">
         Next</button>
-        <button 
-        type="submit" 
-        class="btn btn-success" 
+        <button
+        type="submit"
+        class="btn btn-success"
         *ngIf="currentTab === 3">
         Submit</button>
       </div>

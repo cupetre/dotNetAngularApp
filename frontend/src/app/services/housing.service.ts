@@ -12,6 +12,8 @@ export class HousingService {
 
   private storageKey = 'properties';
 
+  public apiUrl = 'http://localhost:5041/api/city/cities';
+
   constructor(private http: HttpClient) {
 
   }
@@ -39,15 +41,19 @@ export class HousingService {
   }
 
   getPropertyById(id: number): Observable<Iproperty | undefined> {
-  const stored = localStorage.getItem(this.storageKey);
-  const localProps: Iproperty[] = stored ? JSON.parse(stored) : [];
+    const stored = localStorage.getItem(this.storageKey);
+    const localProps: Iproperty[] = stored ? JSON.parse(stored) : [];
 
-  return this.http.get<Iproperty[]>('/properties.json').pipe(
-    map(jsonProps => {
-      const all = [...jsonProps, ...localProps];
-      return all.find(p => p.id === id);
-    })
-  );
-}
+    return this.http.get<Iproperty[]>('/properties.json').pipe(
+      map(jsonProps => {
+        const all = [...jsonProps, ...localProps];
+        return all.find(p => p.id === id);
+      })
+    );
+  }
+
+  getAllCities(): Observable<string[]> {
+    return this.http.get<string[]>(this.apiUrl);
+  }
 
 }

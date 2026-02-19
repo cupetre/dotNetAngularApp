@@ -1,3 +1,6 @@
+using backend.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -5,6 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 
 builder.Services.AddControllers();
+builder.Services.AddDbContext<DataContext>(options => 
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Default")) );
 
 builder.Services.AddCors(options =>
 {
@@ -26,6 +31,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors();
 app.UseAuthorization();
+app.UseCors("AllowAngular");
 
 app.MapControllers();
 app.Run();
