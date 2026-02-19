@@ -1,4 +1,5 @@
 using backend.Data;
+using backend.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +21,9 @@ builder.Services.AddCors(options =>
         .AllowAnyHeader();
     });
 });
+
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
 

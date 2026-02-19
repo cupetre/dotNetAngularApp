@@ -1,0 +1,14 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using backend.Data.Repo;
+
+namespace backend.Interfaces
+{
+    public interface IUnitOfWork
+    {
+        ICityRepository CityRepository {get; }
+        Task<bool> SaveAsync();
+    }
+}
