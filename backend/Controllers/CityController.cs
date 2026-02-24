@@ -5,6 +5,9 @@ using backend.Interfaces;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using backend.DTOs;
+using backend.Helpers;
+using AutoMapper;
+using System.Collections;
 
 namespace backend.Controllers
 
@@ -15,11 +18,13 @@ namespace backend.Controllers
     {
         private readonly IUnitOfWork iuw;
         private readonly ILogger<CityController> _logger;
+        private readonly IMapper mapper;
 
-        public CityController(IUnitOfWork iuw,ILogger<CityController> logger )
+        public CityController(IUnitOfWork iuw,ILogger<CityController> logger, IMapper mapper)
         {
             this.iuw = iuw;
             _logger = logger;
+            this.mapper = mapper;
         }
 
         [HttpGet("getcities")]
@@ -29,25 +34,24 @@ namespace backend.Controllers
 
             var cities = await iuw.CityRepository.GetCitiesAsync();
 
-            var citiesDto = from cts in cities 
-            select new CityDTO()
-            {
-                Id = cts.Id,
-                Name = cts.Name
-            };
-            
-            return Ok(cities);
+            var citiesDto = mapper.Map<IEnumerable<CityDTO>>(cities);
+
+            return Ok(citiesDto);
         }
 
         [HttpPost("addcity")]
         public async Task<IActionResult> AddCities(CityDTO cityDto)
         {
-            var city = new City
-            {
-                Name = cityDto.Name,
-                LastUpdatedBy = 1,
-                LastUpdatedOn = DateTime.Now
-            };
+            var city = mapper.Map<City>(cityDto);
+            city.LastUpdatedBy = 1;
+            city.LastUpdatedOn = DateTime.Now;
+
+            // var city = new City
+            // {
+            //     Name = cityDto.Name,
+            //     LastUpdatedBy = 1,
+            //     LastUpdatedOn = DateTime.Now
+            // };
             
             iuw.CityRepository.AddCity(city);
             await iuw.SaveAsync();
