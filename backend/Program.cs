@@ -10,11 +10,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddDbContext<DataContext>(options => 
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default")) );
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
-builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
@@ -24,7 +23,6 @@ builder.Services.AddCors(options =>
         .AllowAnyHeader();
     });
 });
-
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 

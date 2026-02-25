@@ -14,20 +14,18 @@ namespace backend.Controllers
     public class CityController : ControllerBase
     {
         private readonly IUnitOfWork uow;
-        private readonly ILogger<CityController> _logger;
+        // private readonly ILogger<CityController> _logger;
         private readonly IMapper mapper;
 
-        public CityController(IUnitOfWork uow, ILogger<CityController> logger, IMapper mapper)
+        public CityController(IUnitOfWork uow, IMapper mapper)
         {
             this.uow = uow;
-            _logger = logger;
             this.mapper = mapper;
         }
 
         [HttpGet("getcities")]
         public async Task<IActionResult> GetCities()
         {
-            _logger.LogInformation("Getting cities on endpoint ");
 
             var cities = await uow.CityRepository.GetCitiesAsync();
 
@@ -73,33 +71,22 @@ namespace backend.Controllers
         }
 
         [HttpPatch("{id}")]
-        public async Task<IActionResult> PatchCity(
-    int id,
-    [FromBody] JsonPatchDocument<CityDTO> patchDoc)
+        public async Task<IActionResult> PatchCity(int id,JsonPatchDocument<City> patchDoc)
         {
             if (patchDoc == null)
                 return BadRequest();
 
-            var cityFromDb = await uow.CityRepository.FindCityASync(id);
+            var cityDB = await uow.CityRepository.FindCityASync(id);
 
-            if (cityFromDb == null)
+            if (cityDB == null)
                 return NotFound();
 
-            var cityDto = mapper.Map<CityDTO>(cityFromDb);
+            cityDB.LastUpdatedBy = 1;
+            cityDB.LastUpdatedOn = DateTime.Now;
 
-            patchDoc.ApplyTo(cityDto, ModelState);
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            mapper.Map(cityDto, cityFromDb);
-
-            cityFromDb.LastUpdatedOn = DateTime.Now;
-            cityFromDb.LastUpdatedBy = 1;
-
+            patchDoc.ApplyTo(cityDB, ModelState);
             await uow.SaveAsync();
-
-            return NoContent();
+            return StatusCode(200);
         }
     }
 }
