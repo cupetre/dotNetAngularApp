@@ -1,6 +1,8 @@
 using backend.Data;
+using backend.Helpers;
 using backend.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +13,8 @@ builder.Services.AddOpenApi();
 builder.Services.AddControllers();
 builder.Services.AddDbContext<DataContext>(options => 
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default")) );
-
+builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
+builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>

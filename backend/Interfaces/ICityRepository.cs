@@ -11,5 +11,6 @@ namespace backend.Data.Repo
         Task<IEnumerable<City>> GetCitiesAsync();
         void AddCity(City city);
         void DeleteCity(int CityId);
+        Task<City?> FindCityASync(int id);
     }
 }

@@ -36,5 +36,10 @@ namespace backend.Data.Repo
                 dc.Cities.Remove(city);
             }
         }
+
+        public async Task<City?> FindCityASync(int id)
+        {
+            return await dc.Cities.FindAsync(id);
+        }
     }
 }

@@ -13,6 +13,7 @@ namespace backend.Helpers
         public AutoMapperProfiles()
         {
             CreateMap<City, CityDTO>();
+            CreateMap<CityDTO, City>();
         }   
     }
 }
