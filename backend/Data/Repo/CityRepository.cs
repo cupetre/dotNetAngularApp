@@ -24,6 +24,10 @@ namespace backend.Data.Repo
 
         public void AddCity(City city)
         {
+            if (city == null) {
+                throw new ArgumentNullException(nameof(city));
+            }
+            
             dc.Cities.AddAsync(city);
         }
 
@@ -31,15 +35,24 @@ namespace backend.Data.Repo
         {
             var city = dc.Cities.Find(CityId);
 
-            if (city != null)
+            if ( city == null )
             {
-                dc.Cities.Remove(city);
+                throw new KeyNotFoundException($"City with id {CityId} not found.");
             }
+
+            dc.Cities.Remove(city);
         }
 
         public async Task<City?> FindCityASync(int id)
         {
-            return await dc.Cities.FindAsync(id);
+            var city = await dc.Cities.FindAsync(id);
+
+            if (city == null)
+            {
+                throw new KeyNotFoundException($"City with id {id} not found.");
+            }
+
+            return city;
         }
     }
 }

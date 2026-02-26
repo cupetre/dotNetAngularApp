@@ -10,7 +10,11 @@ namespace backend.DTOs
     public class CityDTO
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string Country { get; set; }
+
+        [Required(ErrorMessage ="Name is not entered correctly.")]
+        public string? Name { get; set; }
+
+        [Required(ErrorMessage = "Country is not entered correctly.")]
+        public string? Country { get; set; }
     }
 }

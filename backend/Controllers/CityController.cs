@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using backend.Interfaces;
 using backend.DTOs;
 using AutoMapper;
-using Azure;
 using Microsoft.AspNetCore.JsonPatch;
 
 namespace backend.Controllers
@@ -14,7 +13,6 @@ namespace backend.Controllers
     public class CityController : ControllerBase
     {
         private readonly IUnitOfWork uow;
-        // private readonly ILogger<CityController> _logger;
         private readonly IMapper mapper;
 
         public CityController(IUnitOfWork uow, IMapper mapper)
@@ -28,9 +26,7 @@ namespace backend.Controllers
         {
 
             var cities = await uow.CityRepository.GetCitiesAsync();
-
             var citiesDto = mapper.Map<IEnumerable<CityDTO>>(cities);
-
             return Ok(citiesDto);
         }
 
@@ -56,37 +52,27 @@ namespace backend.Controllers
         [HttpPut("update/{id}")]
         public async Task<IActionResult> UpdateCity(int id, CityDTO cityDTO)
         {
-            var cityFromDB = await uow.CityRepository.FindCityASync(id);
-
-            if (cityFromDB == null)
-            {
-                return NotFound();
-            }
-
-            cityFromDB.LastUpdatedBy = 1;
-            cityFromDB.LastUpdatedOn = DateTime.Now;
-            mapper.Map(cityDTO, cityFromDB);
+            var cityDB = await uow.CityRepository.FindCityASync(id);
+            cityDB.LastUpdatedBy = 1;
+            cityDB.LastUpdatedOn = DateTime.Now;
+            mapper.Map(cityDTO, cityDB);
             await uow.SaveAsync();
             return StatusCode(200);
         }
 
         [HttpPatch("{id}")]
-        public async Task<IActionResult> PatchCity(int id,JsonPatchDocument<City> patchDoc)
+        public async Task<IActionResult> PatchCity(int id, JsonPatchDocument<City> patchDoc)
         {
-            if (patchDoc == null)
-                return BadRequest();
-
             var cityDB = await uow.CityRepository.FindCityASync(id);
-
-            if (cityDB == null)
-                return NotFound();
-
             cityDB.LastUpdatedBy = 1;
             cityDB.LastUpdatedOn = DateTime.Now;
-
             patchDoc.ApplyTo(cityDB, ModelState);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             await uow.SaveAsync();
-            return StatusCode(200);
+            return Ok();
         }
     }
 }
