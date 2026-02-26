@@ -3,6 +3,7 @@ using backend.Helpers;
 using backend.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using backend.Middleware;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,7 @@ builder.Services.AddDbContext<DataContext>(options =>
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
+
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
@@ -24,6 +26,21 @@ builder.Services.AddCors(options =>
         .AllowAnyMethod()
         .AllowAnyHeader();
     });
+});
+
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.InvalidModelStateResponseFactory = context =>
+    {
+        var error = new ApiError
+        {
+            ErrorCode = "VALIDATION_ERROR",
+            ErrorMessage = "Validation failed",
+            ErrorDetails = context.ModelState
+        };
+
+        return new BadRequestObjectResult(error);
+    };
 });
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();

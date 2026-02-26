@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Middleware
 {
-    public class GlobalExceptionHandler : IExceptionHandler
+    public partial class GlobalExceptionHandler : IExceptionHandler
     {
         private readonly ILogger<GlobalExceptionHandler> _logger;
 
@@ -11,6 +10,7 @@ namespace backend.Middleware
         {
             this._logger = _logger;
         }
+
         public async ValueTask<bool> TryHandleAsync(
             HttpContext httpContext,
             Exception exception,
@@ -19,40 +19,61 @@ namespace backend.Middleware
             _logger.LogError(exception, exception.Message);
 
             int statusCode;
-
-            var problem = new ProblemDetails
-            {
-                Status = StatusCodes.Status500InternalServerError,
-                Title = "Server Error",
-                Detail = exception.Message
-            };
-
-            httpContext.Response.StatusCode = 500;
+            string errorCode;
 
             switch (exception)
             {
                 case KeyNotFoundException:
-                statusCode = StatusCodes.Status404NotFound;
-                break;
+                    statusCode = StatusCodes.Status404NotFound;
+                    errorCode = ErrorCodes.NotFound;
+                    break;
 
-            case ArgumentException:
-                statusCode = StatusCodes.Status400BadRequest;
-                break;
+                case ArgumentException:
+                    statusCode = StatusCodes.Status400BadRequest;
+                    errorCode = ErrorCodes.ValidationError;
+                    break;
 
-            default:
-                statusCode = StatusCodes.Status500InternalServerError;
-                break;
+                default:
+                    statusCode = StatusCodes.Status500InternalServerError;
+                    errorCode = ErrorCodes.ServerError;
+                    break;
             }
+
+            var error = new ApiError
+            {
+                ErrorCode = errorCode,
+                ErrorMessage = exception.Message,
+                Timestamp = DateTime.Now,
+                ErrorDetails = new
+                {
+                    TraceId = httpContext.TraceIdentifier
+                }
+            };
 
             httpContext.Response.StatusCode = statusCode;
 
-            await httpContext.Response.WriteAsJsonAsync(new
-            {
-                error = exception.Message},
+            await httpContext.Response.WriteAsJsonAsync(
+                error,
                 cancellationToken
             );
-            
+
             return true;
         }
+    }
+
+    public class ApiError
+    {
+        public string? ErrorCode { get; set; }
+        public string? ErrorMessage { get; set; }
+        public DateTime Timestamp { get; set; } = DateTime.UtcNow;
+        public object? ErrorDetails { get; set; }
+
+    }
+
+    public static class ErrorCodes
+    {
+        public const string NotFound = "NOT_FOUND";
+        public const string ValidationError = "VALIDATION_ERROR";
+        public const string ServerError = "SERVER_ERROR";
     }
 }
