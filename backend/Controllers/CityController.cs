@@ -8,9 +8,7 @@ using Microsoft.AspNetCore.JsonPatch;
 namespace backend.Controllers
 
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class CityController : ControllerBase
+    public class CityController : BaseController
     {
         private readonly IUnitOfWork uow;
         private readonly IMapper mapper;

@@ -33,6 +33,11 @@ namespace backend.Middleware
                     errorCode = ErrorCodes.ValidationError;
                     break;
 
+                case UnauthorizedAccessException:
+                    statusCode = StatusCodes.Status401Unauthorized;
+                    errorCode = ErrorCodes.Unauthorized;
+                    break;
+
                 default:
                     statusCode = StatusCodes.Status500InternalServerError;
                     errorCode = ErrorCodes.ServerError;
@@ -75,5 +80,6 @@ namespace backend.Middleware
         public const string NotFound = "NOT_FOUND";
         public const string ValidationError = "VALIDATION_ERROR";
         public const string ServerError = "SERVER_ERROR";
+        public const string Unauthorized = "UNAUTHORIZED";
     }
 }
