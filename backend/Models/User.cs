@@ -12,7 +12,7 @@ namespace backend.Models
         public int Id { get; set; }
 
         [Required(ErrorMessage ="Username not entered")]
-        public string? Username {  get; set; }
+        public string Username {  get; set; }
         
         [Required(ErrorMessage ="Password not entered")]
         public string? Password { get; set; }

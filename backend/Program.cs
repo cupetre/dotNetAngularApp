@@ -4,6 +4,11 @@ using backend.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using backend.Middleware;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System.Configuration;
+using Microsoft.AspNetCore.DataProtection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,6 +50,26 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+var secretKey = builder.Configuration.GetSection("AppSettings:Key").Value;
+
+if ( secretKey == null )
+{
+    throw new UnauthorizedAccessException();
+}
+
+var key = new SymmetricSecurityKey(Encoding.UTF32.
+            GetBytes(secretKey));
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(opt =>
+    opt.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        IssuerSigningKey = key
+    });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -54,7 +79,11 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors();
+
+app.UseAuthentication();
+
 app.UseAuthorization();
+
 app.UseCors("AllowAngular");
 app.UseExceptionHandler();
 

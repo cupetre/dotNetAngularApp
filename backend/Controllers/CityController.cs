@@ -4,10 +4,12 @@ using backend.Interfaces;
 using backend.DTOs;
 using AutoMapper;
 using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Authorization;
 
 namespace backend.Controllers
 
 {
+    [Authorize]
     public class CityController : BaseController
     {
         private readonly IUnitOfWork uow;
@@ -20,9 +22,9 @@ namespace backend.Controllers
         }
 
         [HttpGet("getcities")]
+        // [AllowAnonymous]
         public async Task<IActionResult> GetCities()
         {
-
             var cities = await uow.CityRepository.GetCitiesAsync();
             var citiesDto = mapper.Map<IEnumerable<CityDTO>>(cities);
             return Ok(citiesDto);

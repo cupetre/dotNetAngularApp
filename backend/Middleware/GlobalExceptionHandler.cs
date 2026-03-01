@@ -21,6 +21,9 @@ namespace backend.Middleware
             int statusCode;
             string errorCode;
 
+            // TODO proveri serilog za package za zamena na default
+            // i strategypattern posle overwhelming lol
+            // mediatore pattern 
             switch (exception)
             {
                 case KeyNotFoundException:
