@@ -16,21 +16,11 @@ The focus of the project is on:
 
 The application follows a typical modern web architecture:
 
-Client (Angular)
-↓
-REST API (.NET)
-↓
-Database (PostgreSQL / SQL Server)
+Client (Angular) -> REST API (.NET ) -> Database (PostgreSQL / SQL Server)
 
 In deployment, the system is extended with:
 
-Client (Angular)
-↓
-Nginx Reverse Proxy
-↓
-.NET API
-↓
-Database
+Client (Angular) -> Nginx Reverse Proxy -> .NET API -> Database
 
 This setup allows routing, scaling, and separation of concerns between components.
 
